@@ -12,7 +12,11 @@ public final class Minestom {
     public static void main(String[] args) {
 
         MinestomProperty minestomProperty = new MinestomProperty(Paths.get("polo.json"));
+        MinecraftServer.LOGGER.info("Trying to start Minestom server on port " + minestomProperty.getPort() + ".");
+
         MinecraftServer server = MinecraftServer.init();
+
+
 
         if (minestomProperty.isOptifineSupport()) {
             OptifineSupport.enable();

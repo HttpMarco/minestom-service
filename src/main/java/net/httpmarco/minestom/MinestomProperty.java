@@ -29,6 +29,11 @@ public final class MinestomProperty {
             document.set("enableBungeeCordSupport", true);
         }
 
+
+        if(!document.has("enableDebug")) {
+            document.set("enableDebug", false);
+        }
+
         document.write(path);
     }
 
@@ -46,6 +51,10 @@ public final class MinestomProperty {
 
     public boolean isBungeeCordSupport() {
         return this.document.get("enableBungeeCordSupport", boolean.class);
+    }
+
+    public boolean isDebugMode() {
+        return this.document.get("enableDebug", boolean.class);
     }
 
 }
