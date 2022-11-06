@@ -25,6 +25,9 @@ public final class MinestomProperty {
             document.set("enableOptifineSupport", true);
         }
 
+        if(!document.has("enableBungeeCordSupport")) {
+            document.set("enableBungeeCordSupport", true);
+        }
 
         document.write(path);
     }
@@ -39,6 +42,10 @@ public final class MinestomProperty {
 
     public boolean isOptifineSupport() {
         return this.document.get("enableOptifineSupport", boolean.class);
+    }
+
+    public boolean isBungeeCordSupport() {
+        return this.document.get("enableBungeeCordSupport", boolean.class);
     }
 
 }
