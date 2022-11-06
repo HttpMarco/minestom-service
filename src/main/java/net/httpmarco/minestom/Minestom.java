@@ -1,5 +1,6 @@
 package net.httpmarco.minestom;
 
+import net.httpmarco.minestom.commands.StopCommand;
 import net.minestom.server.MinecraftServer;
 import net.minestom.server.extras.optifine.OptifineSupport;
 
@@ -15,6 +16,8 @@ public class Minestom {
         if(minestomProperty.isOptifineSupport()) {
             OptifineSupport.enable();
         }
+
+        new StopCommand();
 
         server.start(minestomProperty.getHostname(), minestomProperty.getPort());
     }
