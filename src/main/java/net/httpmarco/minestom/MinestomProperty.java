@@ -20,6 +20,9 @@ public final class MinestomProperty {
             document.set("hostname", "0.0.0.0");
         }
 
+        if(!document.has("autoInstance")) {
+            document.set("autoInstance", true);
+        }
 
         if(!document.has("enableOptifineSupport")) {
             document.set("enableOptifineSupport", true);
@@ -45,6 +48,9 @@ public final class MinestomProperty {
         return this.document.get("port", int.class);
     }
 
+    public boolean isAutoInstanceSupport() {
+        return this.document.get("autoInstance", boolean.class);
+    }
     public boolean isOptifineSupport() {
         return this.document.get("enableOptifineSupport", boolean.class);
     }

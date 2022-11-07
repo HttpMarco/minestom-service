@@ -35,7 +35,7 @@
             <dependency>
                 <groupId>com.github.Minestom</groupId>
                 <artifactId>Minestom</artifactId>
-                <version>9dab3183e5</version>
+                <version>42195c536b</version>
                 <exclusions>
                     <exclusion>
                         <groupId>org.jboss.shrinkwrap.resolver</groupId>
