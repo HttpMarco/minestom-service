@@ -9,6 +9,7 @@ import net.minestom.server.event.player.PlayerLoginEvent;
 import net.minestom.server.extras.MojangAuth;
 import net.minestom.server.extras.bungee.BungeeCordProxy;
 import net.minestom.server.extras.optifine.OptifineSupport;
+import net.minestom.server.instance.Instance;
 import net.minestom.server.instance.InstanceContainer;
 import net.minestom.server.instance.InstanceManager;
 import net.minestom.server.instance.block.Block;
@@ -25,12 +26,11 @@ public final class Minestom {
         MinecraftServer server = MinecraftServer.init();
 
 
-
         if (minestomProperty.isOptifineSupport()) {
             OptifineSupport.enable();
         }
 
-        if (minestomProperty.isAutoInstanceSupport()){
+        if (minestomProperty.isAutoInstanceSupport()) {
             // Auto generated instance
             InstanceManager instanceManager = MinecraftServer.getInstanceManager();
             InstanceContainer instanceContainer = instanceManager.createInstanceContainer();
@@ -43,16 +43,18 @@ public final class Minestom {
             });
         }
 
-        MinecraftServer.setBrandName("HttpService");
-
-        if (minestomProperty.isBungeeCordSupport()) {
-            BungeeCordProxy.enable();
-        } else {
-            MojangAuth.init();
+        if (minestomProperty.isWorldSave()) {
+            Runtime.getRuntime().addShutdownHook(new Thread(() -> {
+                for (Instance i : MinecraftServer.getInstanceManager().getInstances()) i.saveChunksToStorage();
+            }));
         }
 
-        new StopCommand();
+        MinecraftServer.setBrandName("HttpService");
+        if (minestomProperty.isBungeeCordSupport()) {
+            BungeeCordProxy.enable();
+        } else MojangAuth.init();
 
+        new StopCommand();
         server.start(minestomProperty.getHostname(), minestomProperty.getPort());
     }
 }

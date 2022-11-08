@@ -12,30 +12,10 @@ public final class MinestomProperty {
 
         document = new Document(path);
 
-        if(!document.has("port")) {
-            document.set("port", 25565);
-        }
-
-        if(!document.has("hostname")) {
-            document.set("hostname", "0.0.0.0");
-        }
-
-        if(!document.has("autoInstance")) {
-            document.set("autoInstance", true);
-        }
-
-        if(!document.has("enableOptifineSupport")) {
-            document.set("enableOptifineSupport", true);
-        }
-
-        if(!document.has("enableBungeeCordSupport")) {
-            document.set("enableBungeeCordSupport", true);
-        }
-
-
-        if(!document.has("enableDebug")) {
-            document.set("enableDebug", false);
-        }
+        document.addIfNotExists("port",  25565).addIfNotExists("hostname",  "0.0.0.0")
+                .addIfNotExists("autoInstance", true).addIfNotExists("enableOptifineSupport", true)
+                .addIfNotExists("enableBungeeCordSupport", true).addIfNotExists("enableDebug", true)
+                .addIfNotExists("saveInstanceOnShutdown", false);
 
         document.write(path);
     }
@@ -61,6 +41,10 @@ public final class MinestomProperty {
 
     public boolean isDebugMode() {
         return this.document.get("enableDebug", boolean.class);
+    }
+
+    public boolean isWorldSave() {
+        return this.document.get("saveInstanceOnShutdown", boolean.class);
     }
 
 }
