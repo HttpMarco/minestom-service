@@ -1,6 +1,7 @@
 package net.httpmarco.minestom;
 
 import net.httpmarco.minestom.commands.StopCommand;
+import net.httpmarco.minestom.managers.PingManager;
 import net.minestom.server.MinecraftServer;
 import net.minestom.server.coordinate.Pos;
 import net.minestom.server.entity.Player;
@@ -19,18 +20,14 @@ public final class Minestom {
 
     public static void main(String[] args) {
 
-        MinestomProperty minestomProperty = new MinestomProperty(Paths.get("polo.json"));
-        MinecraftServer.LOGGER.info("Trying to start Minestom server on port " + minestomProperty.getPort() + ".");
-
+        MinecraftServer.LOGGER.info("Trying to start Minestom server on port " + getProperty().getPort() + ".");
         MinecraftServer server = MinecraftServer.init();
 
-
-
-        if (minestomProperty.isOptifineSupport()) {
+        if (getProperty().isOptifineSupport()) {
             OptifineSupport.enable();
         }
 
-        if (minestomProperty.isAutoInstanceSupport()){
+        if (getProperty().isAutoInstanceSupport()){
             // Auto generated instance
             InstanceManager instanceManager = MinecraftServer.getInstanceManager();
             InstanceContainer instanceContainer = instanceManager.createInstanceContainer();
@@ -43,16 +40,21 @@ public final class Minestom {
             });
         }
 
-        MinecraftServer.setBrandName("HttpService");
+        MinecraftServer.setBrandName(getProperty().getBrand());
 
-        if (minestomProperty.isBungeeCordSupport()) {
+        if (getProperty().isBungeeCordSupport()) {
             BungeeCordProxy.enable();
         } else {
             MojangAuth.init();
         }
 
+        new PingManager();
         new StopCommand();
 
-        server.start(minestomProperty.getHostname(), minestomProperty.getPort());
+        server.start(getProperty().getHostname(), getProperty().getPort());
+    }
+
+    public static MinestomProperty getProperty(){
+        return new MinestomProperty(Paths.get("polo.json"));
     }
 }
