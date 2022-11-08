@@ -1,6 +1,9 @@
 package net.httpmarco.minestom;
 
+import lombok.Getter;
+import net.httpmarco.minestom.commands.ReloadCommand;
 import net.httpmarco.minestom.commands.StopCommand;
+import net.httpmarco.minestom.extensions.ReloadManager;
 import net.minestom.server.MinecraftServer;
 import net.minestom.server.coordinate.Pos;
 import net.minestom.server.entity.Player;
@@ -16,15 +19,25 @@ import net.minestom.server.instance.block.Block;
 
 import java.nio.file.Paths;
 
+@Getter
 public final class Minestom {
 
-    public static void main(String[] args) {
+    @Getter
+    private static Minestom instance;
 
+    private final ReloadManager reloadManager;
+
+    public static void main(String[] args) {
+        new Minestom();
+    }
+
+    public Minestom() {
+        instance = this;
         MinestomProperty minestomProperty = new MinestomProperty(Paths.get("polo.json"));
         MinecraftServer.LOGGER.info("Trying to start Minestom server on port " + minestomProperty.getPort() + ".");
 
         MinecraftServer server = MinecraftServer.init();
-
+        this.reloadManager = new ReloadManager();
 
         if (minestomProperty.isOptifineSupport()) {
             OptifineSupport.enable();
@@ -54,6 +67,7 @@ public final class Minestom {
             BungeeCordProxy.enable();
         } else MojangAuth.init();
 
+        new ReloadCommand();
         new StopCommand();
         server.start(minestomProperty.getHostname(), minestomProperty.getPort());
     }

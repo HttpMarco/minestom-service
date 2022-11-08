@@ -14,8 +14,7 @@ public final class MinestomProperty {
 
         document.addIfNotExists("port",  25565).addIfNotExists("hostname",  "0.0.0.0")
                 .addIfNotExists("autoInstance", true).addIfNotExists("enableOptifineSupport", true)
-                .addIfNotExists("enableBungeeCordSupport", true).addIfNotExists("enableDebug", true)
-                .addIfNotExists("saveInstanceOnShutdown", false);
+                .addIfNotExists("enableBungeeCordSupport", true).addIfNotExists("saveInstanceOnShutdown", false);
 
         document.write(path);
     }
@@ -37,10 +36,6 @@ public final class MinestomProperty {
 
     public boolean isBungeeCordSupport() {
         return this.document.get("enableBungeeCordSupport", boolean.class);
-    }
-
-    public boolean isDebugMode() {
-        return this.document.get("enableDebug", boolean.class);
     }
 
     public boolean isWorldSave() {
