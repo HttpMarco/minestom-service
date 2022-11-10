@@ -5,10 +5,10 @@ Minestom service framework
 Todo list: 
 
 - [ ] Extensions Command
-- [ ] Stop Command
+- [x] Stop Command
 - [ ] World Manager / folder
 - [ ] Add BungeeCord / Velocity Support
-- [ ] Instance Skull handler
+- [x] Instance Skull handler
 - [ ] Pageable Inventories
 - [ ] Interact Items
 - [ ] Intractable Entities
