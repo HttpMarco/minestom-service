@@ -30,7 +30,7 @@ public final class Minestom {
 
     public static void main(String[] args) {
         new Minestom();
-
+    }
     public Minestom() {
         instance = this;
         MinestomProperty minestomProperty = new MinestomProperty(Paths.get("polo.json"));
