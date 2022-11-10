@@ -9,7 +9,8 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 
-public class FlatGenerator implements ChunkGenerator {
+@SuppressWarnings("ALL")
+public final class FlatGenerator implements ChunkGenerator {
 
     @Override
     public void generateChunkData(@NotNull ChunkBatch batch, int chunkX, int chunkZ) {

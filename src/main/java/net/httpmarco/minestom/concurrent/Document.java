@@ -53,6 +53,21 @@ public final class Document {
         return GSON.fromJson(this.jsonObject.get(key), type);
     }
 
+    public Document addIfNotExists(String key, boolean state) {
+        if(!has(key)) set(key, state);
+        return this;
+    }
+
+    public Document addIfNotExists(String key, int state) {
+        if(!has(key)) set(key, state);
+        return this;
+    }
+
+    public Document addIfNotExists(String key, String state) {
+        if(!has(key)) set(key, state);
+        return this;
+    }
+
     public <T> T get(final @NotNull Class<T> clazz) {
         return GSON.fromJson(this.jsonObject, clazz);
     }

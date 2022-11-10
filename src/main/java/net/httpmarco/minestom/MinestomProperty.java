@@ -12,51 +12,18 @@ public final class MinestomProperty {
 
         document = new Document(path);
 
-        if(!document.has("port")) {
-            document.set("port", 25565);
-        }
-
-        if(!document.has("hostname")) {
-            document.set("hostname", "0.0.0.0");
-        }
-
-        if(!document.has("motd")) {
-            document.set("motd", "A Http Minestom Server!");
-        }
-
-        if(!document.has("icon")) {
-            document.set("icon", "favicon.png");
-        }
-
-        if(!document.has("maxPlayers")) {
-            document.set("maxPlayers", 20);
-        }
-
-        if(!document.has("onlinePlayers")) {
-            document.set("onlinePlayers", -1);
-        }
-
-        if (!document.has("brand")) {
-            document.set("brand", "HttpService");
-        }
-
-        if(!document.has("autoInstance")) {
-            document.set("autoInstance", true);
-        }
-
-        if(!document.has("enableOptifineSupport")) {
-            document.set("enableOptifineSupport", true);
-        }
-
-        if(!document.has("enableBungeeCordSupport")) {
-            document.set("enableBungeeCordSupport", true);
-        }
-
-
-        if(!document.has("enableDebug")) {
-            document.set("enableDebug", false);
-        }
-
+        document.addIfNotExists("port",  25565)
+        .addIfNotExists("hostname",  "0.0.0.0")
+        .addIfNotExists("motd",  "A new http minestom service")
+        .addIfNotExists("icon", "favicon.png")
+        .addIfNotExists("autoInstance", true)
+        .addIfNotExists("enableOptifineSupport", true)
+        .addIfNotExists("brand", "HttpService")
+        .addIfNotExists("maxPlayers", 20)
+        .addIfNotExists("onlinePlayers", -1)
+        .addIfNotExists("enableBungeeCordSupport", true)
+        .addIfNotExists("saveInstanceOnShutdown", false);
+        
         document.write(path);
     }
 
@@ -92,8 +59,8 @@ public final class MinestomProperty {
         return this.document.get("enableBungeeCordSupport", boolean.class);
     }
 
-    public boolean isDebugMode() {
-        return this.document.get("enableDebug", boolean.class);
+    public boolean isWorldSave() {
+        return this.document.get("saveInstanceOnShutdown", boolean.class);
     }
 
 }
