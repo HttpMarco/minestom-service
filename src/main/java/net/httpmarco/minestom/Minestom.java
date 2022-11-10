@@ -3,6 +3,7 @@ package net.httpmarco.minestom;
 import lombok.Getter;
 import net.httpmarco.minestom.commands.ReloadCommand;
 import net.httpmarco.minestom.commands.StopCommand;
+import net.httpmarco.minestom.managers.PingManager;
 import net.httpmarco.minestom.extensions.ReloadManager;
 import net.minestom.server.MinecraftServer;
 import net.minestom.server.coordinate.Pos;
@@ -29,7 +30,6 @@ public final class Minestom {
 
     public static void main(String[] args) {
         new Minestom();
-    }
 
     public Minestom() {
         instance = this;
@@ -56,6 +56,9 @@ public final class Minestom {
             });
         }
 
+
+        MinecraftServer.setBrandName(getProperty().getBrand());
+
         if (minestomProperty.isWorldSave()) {
             Runtime.getRuntime().addShutdownHook(new Thread(() -> {
                 for (Instance i : MinecraftServer.getInstanceManager().getInstances()) i.saveChunksToStorage();
@@ -67,8 +70,14 @@ public final class Minestom {
             BungeeCordProxy.enable();
         } else MojangAuth.init();
 
+        new PingManager();
         new ReloadCommand();
         new StopCommand();
-        server.start(minestomProperty.getHostname(), minestomProperty.getPort());
+
+        server.start(getProperty().getHostname(), getProperty().getPort());
+    }
+
+    public static MinestomProperty getProperty(){
+        return new MinestomProperty(Paths.get("polo.json"));
     }
 }
