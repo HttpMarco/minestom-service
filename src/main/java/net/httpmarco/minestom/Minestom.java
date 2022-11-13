@@ -65,7 +65,6 @@ public final class Minestom {
             }));
         }
 
-        MinecraftServer.setBrandName("HttpService");
         if (minestomProperty.isBungeeCordSupport()) {
             BungeeCordProxy.enable();
         } else MojangAuth.init();
