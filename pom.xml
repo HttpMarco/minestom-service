@@ -56,7 +56,8 @@
             <artifactId>annotations</artifactId>
             <version>23.0.0</version>
         </dependency>
-            <dependency>
+
+        <dependency>
                 <groupId>com.github.Minestom</groupId>
                 <artifactId>Minestom</artifactId>
                 <version>42195c536b</version>

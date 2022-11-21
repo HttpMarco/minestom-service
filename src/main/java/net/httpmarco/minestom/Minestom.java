@@ -1,21 +1,22 @@
 package net.httpmarco.minestom;
 
 import lombok.Getter;
+import net.httpmarco.minestom.commands.ExtensionsCommand;
 import net.httpmarco.minestom.commands.ReloadCommand;
 import net.httpmarco.minestom.commands.StopCommand;
 import net.httpmarco.minestom.managers.PingManager;
 import net.httpmarco.minestom.extensions.ReloadManager;
+import net.httpmarco.minestom.staff.top.TopCollection;
+import net.httpmarco.minestom.staff.top.TopPosition;
 import net.minestom.server.MinecraftServer;
 import net.minestom.server.coordinate.Pos;
-import net.minestom.server.entity.Player;
-import net.minestom.server.event.GlobalEventHandler;
+import net.minestom.server.entity.GameMode;
+import net.minestom.server.event.player.PlayerBlockBreakEvent;
 import net.minestom.server.event.player.PlayerLoginEvent;
 import net.minestom.server.extras.MojangAuth;
 import net.minestom.server.extras.bungee.BungeeCordProxy;
 import net.minestom.server.extras.optifine.OptifineSupport;
 import net.minestom.server.instance.Instance;
-import net.minestom.server.instance.InstanceContainer;
-import net.minestom.server.instance.InstanceManager;
 import net.minestom.server.instance.block.Block;
 
 import java.nio.file.Paths;
@@ -31,6 +32,7 @@ public final class Minestom {
     public static void main(String[] args) {
         new Minestom();
     }
+
     public Minestom() {
         instance = this;
         MinestomProperty minestomProperty = new MinestomProperty(Paths.get("polo.json"));
@@ -43,18 +45,27 @@ public final class Minestom {
             OptifineSupport.enable();
         }
 
+        var globalEventHandler = MinecraftServer.getGlobalEventHandler();
+
         if (minestomProperty.isAutoInstanceSupport()) {
             // Auto generated instance
-            InstanceManager instanceManager = MinecraftServer.getInstanceManager();
-            InstanceContainer instanceContainer = instanceManager.createInstanceContainer();
+            var instanceManager = MinecraftServer.getInstanceManager();
+            var instanceContainer = instanceManager.createInstanceContainer();
             instanceContainer.setGenerator(unit -> unit.modifier().fillHeight(0, 40, Block.GRASS_BLOCK));
-            GlobalEventHandler globalEventHandler = MinecraftServer.getGlobalEventHandler();
             globalEventHandler.addListener(PlayerLoginEvent.class, event -> {
-                final Player player = event.getPlayer();
+                var player = event.getPlayer();
                 event.setSpawningInstance(instanceContainer);
                 player.setRespawnPoint(new Pos(0, 42, 0));
+                player.setGameMode(GameMode.CREATIVE);
             });
         }
+
+        globalEventHandler.addListener(PlayerBlockBreakEvent.class, event -> {
+            TopCollection collection = new TopCollection(new TopPosition("HttpMarco", 1000),
+                    new TopPosition("GommeHD", 600),
+                    new TopPosition("Paluten", 500));
+            collection.handle(event.getBlockPosition().add(0,2,0), event.getInstance());
+        });
 
 
         MinecraftServer.setBrandName(getProperty().getBrand());
@@ -72,11 +83,12 @@ public final class Minestom {
         new PingManager();
         new ReloadCommand();
         new StopCommand();
+        new ExtensionsCommand();
 
         server.start(getProperty().getHostname(), getProperty().getPort());
     }
 
-    public static MinestomProperty getProperty(){
+    public static MinestomProperty getProperty() {
         return new MinestomProperty(Paths.get("polo.json"));
     }
 }

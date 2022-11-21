@@ -15,7 +15,7 @@ public final class MinestomProperty {
         document.addIfNotExists("port",  25565)
         .addIfNotExists("hostname",  "0.0.0.0")
         .addIfNotExists("motd",  "A new http minestom service")
-        .addIfNotExists("icon", "favicon.png")
+        .addIfNotExists("icon", "icon.png")
         .addIfNotExists("autoInstance", true)
         .addIfNotExists("enableOptifineSupport", true)
         .addIfNotExists("brand", "HttpService")
