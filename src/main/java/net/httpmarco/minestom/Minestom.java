@@ -8,11 +8,15 @@ import net.httpmarco.minestom.managers.PingManager;
 import net.httpmarco.minestom.extensions.ReloadManager;
 import net.httpmarco.minestom.staff.top.TopCollection;
 import net.httpmarco.minestom.staff.top.TopPosition;
+import net.httpmarco.minestom.tablist.TablistGroup;
+import net.httpmarco.minestom.tablist.TablistTeam;
+import net.kyori.adventure.text.format.NamedTextColor;
 import net.minestom.server.MinecraftServer;
 import net.minestom.server.coordinate.Pos;
 import net.minestom.server.entity.GameMode;
 import net.minestom.server.event.player.PlayerBlockBreakEvent;
 import net.minestom.server.event.player.PlayerLoginEvent;
+import net.minestom.server.event.player.PlayerSpawnEvent;
 import net.minestom.server.extras.MojangAuth;
 import net.minestom.server.extras.bungee.BungeeCordProxy;
 import net.minestom.server.extras.optifine.OptifineSupport;
@@ -59,14 +63,6 @@ public final class Minestom {
                 player.setGameMode(GameMode.CREATIVE);
             });
         }
-
-        globalEventHandler.addListener(PlayerBlockBreakEvent.class, event -> {
-            TopCollection collection = new TopCollection(new TopPosition("HttpMarco", 1000),
-                    new TopPosition("GommeHD", 600),
-                    new TopPosition("Paluten", 500));
-            collection.handle(event.getBlockPosition().add(0,2,0), event.getInstance());
-        });
-
 
         MinecraftServer.setBrandName(getProperty().getBrand());
 
