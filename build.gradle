@@ -1,0 +1,49 @@
+plugins {
+    id 'java'
+    id 'maven-publish'
+    id 'com.github.johnrengelman.shadow' version '7.1.0'
+}
+
+compileJava {
+    options.release = 17
+}
+
+group 'net.http.mineservice'
+version '1.0.0'
+
+
+shadowJar {
+    archiveBaseName.set('minestom')
+    archiveClassifier.set('')
+    archiveVersion.set('')
+
+    compileJava.options.encoding = 'UTF-8'
+
+    tasks.withType(JavaCompile).tap {
+        configureEach {
+            options.encoding = 'UTF-8'
+        }
+    }
+
+    jar {
+        manifest {
+            attributes 'Main-Class': 'net.http.mineservice.MineServiceBootstrap', "Multi-Release": true
+        }
+    }
+}
+
+repositories {
+    mavenCentral()
+    mavenLocal()
+
+    maven { url = uri("https://jitpack.io") }
+
+}
+
+dependencies {
+    implementation("com.github.Minestom:Minestom:42195c536")
+    compileOnly 'org.projectlombok:lombok:1.18.24'
+    annotationProcessor 'org.projectlombok:lombok:1.18.24'
+    testCompileOnly 'org.projectlombok:lombok:1.18.24'
+    testAnnotationProcessor 'org.projectlombok:lombok:1.18.24'
+}
