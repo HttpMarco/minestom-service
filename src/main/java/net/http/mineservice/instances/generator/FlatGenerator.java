@@ -9,6 +9,6 @@ public final class FlatGenerator implements Generator {
 
     @Override
     public void generate(@NotNull GenerationUnit unit) {
-        unit.modifier().fillHeight(97, 100, Block.GRASS_BLOCK);
+        unit.modifier().fillHeight(-20, 0, Block.GRASS_BLOCK);
     }
 }
